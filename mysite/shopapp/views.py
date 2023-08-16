@@ -52,7 +52,10 @@ class ShopIndexView(View):
         }
         return render(request, 'shopapp/shop-index.html', context=context)
 
+class IndexView(View):
 
+    def get(self, request):
+        return render(request, 'shopapp/index.html')
 class ProductDetailsView(DetailView):
     template_name = "shopapp/products-details.html"
     queryset = Product.objects.prefetch_related("images")
