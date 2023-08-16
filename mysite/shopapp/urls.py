@@ -1,6 +1,6 @@
 from django.urls import path, include
 from rest_framework.routers import DefaultRouter
-
+from django.contrib.staticfiles.urls import staticfiles_urlpatterns
 from .views import (
     ShopIndexView,
     ProductDetailsView,
@@ -33,3 +33,4 @@ urlpatterns = [
     path("orders/", OrdersListView.as_view(), name="orders_list"),
     path("orders/<int:pk>/", OrderDetailView.as_view(), name="order_details"),
 ]
+urlpatterns += staticfiles_urlpatterns()
