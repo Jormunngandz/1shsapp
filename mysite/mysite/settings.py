@@ -11,7 +11,7 @@ https://docs.djangoproject.com/en/4.0/ref/settings/
 """
 
 from pathlib import Path
-import  os
+import os
 from django.urls import reverse_lazy
 import logging.config
 
@@ -42,15 +42,15 @@ DEBUG = os.getenv("DJANGO_DEBUG", "0") == "1"
 ALLOWED_HOSTS = ["0.0.0.0",
                  "127.0.0.1",] + os.getenv("DJANGO_ALLOWED_HOSTS", "").split(",")
 
-INTERNAL_IPS = [
-    '127.0.0.1',
 
-]
 if DEBUG:
     import socket
     hostname, _, ips = socket.gethostbyname_ex(socket.gethostname())
-    INTERNAL_IPS.append("10.0.2.2")
-    INTERNAL_IPS.extend([ip[:ip.rfind(".")] + ".1" for ip in ips])
+    INTERNAL_IPS = [ip[:ip.rfind(".")] + '.1' for ip in ips] + ["127.0.0.1", "10.0.2.2"]
+else:
+    INTERNAL_IPS = [
+        "127.0.0.1",
+    ]
 # Application definition
 
 INSTALLED_APPS = [
@@ -155,14 +155,7 @@ USE_TZ = True
 STATIC_URL = 'static/'
 
 
-if DEBUG:
-    import socket
-    hostname, _, ips = socket.gethostbyname_ex(socket.gethostname())
-    INTERNAL_IPS = [ip[:ip.rfind(".")] + '.1' for ip in ips] + ["127.0.0.1", "10.0.2.2"]
-else:
-    INTERNAL_IPS = [
-        "127.0.0.1",
-    ]
+
 MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'uploads'
 # DEFAULT_FILE_STORAGE =
@@ -220,7 +213,7 @@ logging.config.dictConfig({
     "handlers": {
         "console": {
             "class": "logging.StreamHandler",
-            "formatters": "console",
+            "formatter": "console",
         },
     },
     "logger": {
@@ -228,7 +221,7 @@ logging.config.dictConfig({
             "level": LOGLEVEL,
             "handlers": [
                 "console",
-            ]
+            ],
         },
     },
 })
